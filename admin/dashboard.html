@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — FaceLock</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- Overlay for mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-box">🔐</div>
+        <span>FaceLock</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle" title="Collapse">◀</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item active" href="dashboard.html">
+        <span class="nav-icon">📊</span><span>Dashboard</span>
+      </a>
+      <a class="nav-item" href="users.html">
+        <span class="nav-icon">👥</span><span>User Management</span>
+        <span class="nav-badge">12</span>
+      </a>
+      <a class="nav-item" href="permissions.html">
+        <span class="nav-icon">🔑</span><span>Permissions</span>
+      </a>
+
+      <div class="nav-section-label" style="margin-top:12px">Monitoring</div>
+      <a class="nav-item" href="logs.html">
+        <span class="nav-icon">📋</span><span>Access Logs</span>
+      </a>
+      <a class="nav-item" href="alerts.html">
+        <span class="nav-icon">🔔</span><span>Alerts</span>
+        <span class="nav-badge">3</span>
+      </a>
+      <a class="nav-item" href="cameras.html">
+        <span class="nav-icon">📷</span><span>Cameras</span>
+      </a>
+
+      <div class="nav-section-label" style="margin-top:12px">System</div>
+      <a class="nav-item" href="settings.html">
+        <span class="nav-icon">⚙️</span><span>Settings</span>
+      </a>
+      <a class="nav-item" href="../login.html">
+        <span class="nav-icon">🚪</span><span>Logout</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <div class="u-name">Admin User</div>
+          <div class="u-role">Super Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <main class="app-main" id="appMain">
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">☰</button>
+        <div class="topbar-left">
+          <h2>Dashboard</h2>
+          <p>Welcome back, Admin — here's what's happening today</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="dropdown-wrap">
+          <button class="topbar-btn" id="notifBtn" title="Notifications">
+            🔔<span class="notif-dot"></span>
+          </button>
+          <div class="notif-dropdown" id="notifDropdown">
+            <div class="notif-header">
+              <h4>Notifications</h4>
+              <span class="notif-clear">Mark all read</span>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-dot-small"></div>
+              <div class="notif-item-info">
+                <div class="n-title">🚨 Unauthorized access attempt – Server Room</div>
+                <div class="n-time">2 minutes ago</div>
+              </div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-dot-small"></div>
+              <div class="notif-item-info">
+                <div class="n-title">👤 New user registered – Maria Santos</div>
+                <div class="n-time">18 minutes ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-dot-small read"></div>
+              <div class="notif-item-info">
+                <div class="n-title">🔑 Permissions updated for IT Dept.</div>
+                <div class="n-time">1 hour ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-dot-small read"></div>
+              <div class="notif-item-info">
+                <div class="n-title">✅ System backup completed successfully</div>
+                <div class="n-time">3 hours ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="topbar-btn" title="Settings" onclick="window.location='settings.html'">⚙️</button>
+        <div class="topbar-user" onclick="window.location='../login.html'">
+          <div class="user-avatar" style="width:36px;height:36px;font-size:.82rem">AD</div>
+          <div>
+            <div class="u-name">Admin User</div>
+            <div class="u-role">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="dashboard.html">🏠 Home</a>
+        <span class="sep">›</span>
+        <span>Dashboard</span>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Total Users</span>
+            <span class="stat-val">248</span>
+            <span class="stat-change up">▲ 12 this month</span>
+          </div>
+          <div class="stat-icon-wrap si-pink">👥</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Active Today</span>
+            <span class="stat-val">63</span>
+            <span class="stat-change up">▲ 8% vs yesterday</span>
+          </div>
+          <div class="stat-icon-wrap si-green">✅</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Access Events</span>
+            <span class="stat-val">1,284</span>
+            <span class="stat-change up">▲ Today so far</span>
+          </div>
+          <div class="stat-icon-wrap si-blue">🚪</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Denied Access</span>
+            <span class="stat-val">7</span>
+            <span class="stat-change down">▼ 3 alerts raised</span>
+          </div>
+          <div class="stat-icon-wrap si-orange">🚨</div>
+        </div>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="content-grid">
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <h3>📋 Recent Access Activity</h3>
+            <a href="logs.html" class="btn btn-ghost btn-sm">View All →</a>
+          </div>
+          <div class="card-body" style="padding:0">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Door / Zone</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="user-cell"><div class="mini-avatar">AV</div><div class="user-cell-info"><div class="name">Ana Villanueva</div><div class="email">ana@company.com</div></div></div></td>
+                    <td>🚪 Main Entrance</td>
+                    <td><span class="badge badge-success badge-dot">Granted</span></td>
+                    <td>09:42 AM</td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell"><div class="mini-avatar">MR</div><div class="user-cell-info"><div class="name">Marco Reyes</div><div class="email">marco@company.com</div></div></div></td>
+                    <td>🖥️ Server Room</td>
+                    <td><span class="badge badge-danger badge-dot">Denied</span></td>
+                    <td>09:38 AM</td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell"><div class="mini-avatar">JS</div><div class="user-cell-info"><div class="name">Julia Santos</div><div class="email">julia@company.com</div></div></div></td>
+                    <td>🔬 Lab A</td>
+                    <td><span class="badge badge-success badge-dot">Granted</span></td>
+                    <td>09:31 AM</td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell"><div class="mini-avatar">PD</div><div class="user-cell-info"><div class="name">Pedro Delos</div><div class="email">pedro@company.com</div></div></div></td>
+                    <td>🚪 Side Gate</td>
+                    <td><span class="badge badge-success badge-dot">Granted</span></td>
+                    <td>09:18 AM</td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell"><div class="mini-avatar">RL</div><div class="user-cell-info"><div class="name">Rosa Lim</div><div class="email">rosa@company.com</div></div></div></td>
+                    <td>🏢 Office Floor 3</td>
+                    <td><span class="badge badge-success badge-dot">Granted</span></td>
+                    <td>09:05 AM</td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell"><div class="mini-avatar">??</div><div class="user-cell-info"><div class="name">Unknown</div><div class="email">Unregistered face</div></div></div></td>
+                    <td>🚪 Rear Entrance</td>
+                    <td><span class="badge badge-warning badge-dot">Alert</span></td>
+                    <td>08:57 AM</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <!-- Door Control -->
+          <div class="door-status-card">
+            <div class="door-icon" id="doorIcon">🔒</div>
+            <div class="door-status-label">Main Entrance Status</div>
+            <div class="door-status-value" id="doorStatus">Locked</div>
+            <button class="door-toggle-btn" id="doorToggle">Unlock Door</button>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-header"><h3>⚡ Quick Actions</h3></div>
+            <div class="card-body">
+              <div class="quick-grid">
+                <a href="users.html"      class="quick-item"><div class="quick-item-icon">➕</div><div class="quick-item-text"><div class="q-label">Add User</div><div class="q-sub">Register new user</div></div></a>
+                <a href="permissions.html" class="quick-item"><div class="quick-item-icon">🔑</div><div class="quick-item-text"><div class="q-label">Permissions</div><div class="q-sub">Manage access</div></div></a>
+                <a href="logs.html"        class="quick-item"><div class="quick-item-icon">📋</div><div class="quick-item-text"><div class="q-label">View Logs</div><div class="q-sub">Access history</div></div></a>
+                <a href="alerts.html"      class="quick-item"><div class="quick-item-icon">🚨</div><div class="quick-item-text"><div class="q-label">Alerts</div><div class="q-sub">3 unread</div></div></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div class="content-grid-3">
+        <!-- Departments -->
+        <div class="card">
+          <div class="card-header"><h3>🏢 Departments</h3></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div class="flex-between mb-8"><span style="font-size:.875rem;font-weight:600">IT Department</span><span class="badge badge-pink">42 users</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:85%"></div></div>
+              </div>
+              <div>
+                <div class="flex-between mb-8"><span style="font-size:.875rem;font-weight:600">HR &amp; Admin</span><span class="badge badge-pink">28 users</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:56%"></div></div>
+              </div>
+              <div>
+                <div class="flex-between mb-8"><span style="font-size:.875rem;font-weight:600">Finance</span><span class="badge badge-pink">19 users</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:38%"></div></div>
+              </div>
+              <div>
+                <div class="flex-between mb-8"><span style="font-size:.875rem;font-weight:600">Operations</span><span class="badge badge-pink">35 users</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+              </div>
+              <div>
+                <div class="flex-between mb-8"><span style="font-size:.875rem;font-weight:600">Security</span><span class="badge badge-pink">14 users</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:28%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Activity Feed -->
+        <div class="card">
+          <div class="card-header"><h3>🔔 Activity Feed</h3></div>
+          <div class="card-body" style="padding:8px 20px">
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon ai-green">✅</div>
+                <div class="activity-info">
+                  <div class="act-title">Access granted — Lab B</div>
+                  <div class="act-sub">Dr. Rivera – Face verified</div>
+                </div>
+                <div class="activity-time">09:50</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon ai-red">🚨</div>
+                <div class="activity-info">
+                  <div class="act-title">Unauthorized attempt — Server Room</div>
+                  <div class="act-sub">Unknown face detected</div>
+                </div>
+                <div class="activity-time">09:38</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon ai-pink">👤</div>
+                <div class="activity-info">
+                  <div class="act-title">New user registered</div>
+                  <div class="act-sub">Maria Santos – HR Dept.</div>
+                </div>
+                <div class="activity-time">09:20</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon ai-blue">🔑</div>
+                <div class="activity-info">
+                  <div class="act-title">Permissions updated</div>
+                  <div class="act-sub">IT Dept. – Added Floor 4</div>
+                </div>
+                <div class="activity-time">08:45</div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon ai-orange">⚙️</div>
+                <div class="activity-info">
+                  <div class="act-title">System backup completed</div>
+                  <div class="act-sub">Auto-backup successful</div>
+                </div>
+                <div class="activity-time">06:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Door Zones -->
+        <div class="card">
+          <div class="card-header"><h3>🚪 Door Zones Status</h3></div>
+          <div class="card-body">
+            <div class="zone-card">
+              <div class="zone-icon">🚪</div>
+              <div class="zone-info"><div class="z-name">Main Entrance</div><div class="z-sub">Lobby – Floor 1</div></div>
+              <span class="badge badge-success badge-dot">Online</span>
+            </div>
+            <div class="zone-card">
+              <div class="zone-icon">🖥️</div>
+              <div class="zone-info"><div class="z-name">Server Room</div><div class="z-sub">IT – Floor 3</div></div>
+              <span class="badge badge-success badge-dot">Online</span>
+            </div>
+            <div class="zone-card">
+              <div class="zone-icon">🔬</div>
+              <div class="zone-info"><div class="z-name">Lab A &amp; B</div><div class="z-sub">Research – Floor 2</div></div>
+              <span class="badge badge-success badge-dot">Online</span>
+            </div>
+            <div class="zone-card">
+              <div class="zone-icon">🏢</div>
+              <div class="zone-info"><div class="z-name">Executive Floor</div><div class="z-sub">C-Suite – Floor 5</div></div>
+              <span class="badge badge-warning badge-dot">Restricted</span>
+            </div>
+            <div class="zone-card">
+              <div class="zone-icon">🚗</div>
+              <div class="zone-info"><div class="z-name">Parking Gate</div><div class="z-sub">Basement</div></div>
+              <span class="badge badge-danger badge-dot">Offline</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

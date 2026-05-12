@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Permissions — FaceLock Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>" />
+</head>
+<body>
+
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo"><div class="logo-box">🔐</div><span>FaceLock</span></div>
+      <button class="sidebar-toggle" id="sidebarToggle">◀</button>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+      <a class="nav-item" href="users.html"><span class="nav-icon">👥</span><span>User Management</span><span class="nav-badge">12</span></a>
+      <a class="nav-item active" href="permissions.html"><span class="nav-icon">🔑</span><span>Permissions</span></a>
+      <div class="nav-section-label" style="margin-top:12px">Monitoring</div>
+      <a class="nav-item" href="logs.html"><span class="nav-icon">📋</span><span>Access Logs</span></a>
+      <a class="nav-item" href="alerts.html"><span class="nav-icon">🔔</span><span>Alerts</span><span class="nav-badge">3</span></a>
+      <a class="nav-item" href="cameras.html"><span class="nav-icon">📷</span><span>Cameras</span></a>
+      <div class="nav-section-label" style="margin-top:12px">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+      <a class="nav-item" href="../login.html"><span class="nav-icon">🚪</span><span>Logout</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">AD</div>
+        <div class="user-info"><div class="u-name">Admin User</div><div class="u-role">Super Admin</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="app-main" id="appMain">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">☰</button>
+        <div class="topbar-left">
+          <h2>Permission Settings</h2>
+          <p>Control user access rights per door zone</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn" id="notifBtn">🔔<span class="notif-dot"></span></button>
+        <button class="btn btn-primary btn-sm" onclick="saveAllPerms()">💾 Save All</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="breadcrumb">
+        <a href="dashboard.html">🏠 Home</a><span class="sep">›</span>
+        <a href="users.html">Users</a><span class="sep">›</span>
+        <span>Permissions</span>
+      </div>
+
+      <div class="alert alert-info mb-24">
+        <span class="alert-icon">ℹ️</span>
+        <span>Toggle each permission to grant or revoke access. Changes take effect immediately. Use <strong>Save All</strong> to batch-apply.</span>
+      </div>
+
+      <!-- View Tabs -->
+      <div class="card mb-24">
+        <div class="card-body" style="padding:16px 20px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="switchView('matrix',this)">🗂️ Matrix View</button>
+            <button class="btn btn-ghost btn-sm"   onclick="switchView('role',this)">👤 By Role</button>
+            <button class="btn btn-ghost btn-sm"   onclick="switchView('zone',this)">🚪 By Zone</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Matrix View -->
+      <div id="viewMatrix">
+        <div class="card">
+          <div class="card-header">
+            <h3>🗂️ User × Zone Permission Matrix</h3>
+            <span style="font-size:.82rem;color:var(--gray-500)">Toggle = Grant / Revoke</span>
+          </div>
+          <div class="card-body" style="padding:0">
+            <div class="table-responsive">
+              <table class="perm-table">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;min-width:180px">User / Zone</th>
+                    <th>🚪 Main<br>Entrance</th>
+                    <th>🖥️ Server<br>Room</th>
+                    <th>🔬 Lab A</th>
+                    <th>🔬 Lab B</th>
+                    <th>🏢 Office<br>Floors</th>
+                    <th>👔 Exec<br>Floor</th>
+                    <th>🚗 Parking</th>
+                    <th>🛗 Stairwell</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">AV</div><div><div class="name">Ana Villanueva</div><div class="email">Manager – HR</div></div></div></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">MR</div><div><div class="name">Marco Reyes</div><div class="email">Staff – IT</div></div></div></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">JS</div><div><div class="name">Julia Santos</div><div class="email">Researcher – Ops</div></div></div></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">PD</div><div><div class="name">Pedro Delos</div><div class="email">Guard – Security</div></div></div></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">RL</div><div><div class="name">Rosa Lim</div><div class="email">Staff – Finance</div></div></div></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">DR</div><div><div class="name">Dr. Rivera</div><div class="email">Researcher – Ops</div></div></div></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                    <td><button class="perm-toggle on"></button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem;background:linear-gradient(135deg,#ccc,#999)">BN</div><div><div class="name">Ben Navarro</div><div class="email" style="color:#C62828">⛔ Suspended</div></div></div></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                    <td><button class="perm-toggle"></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Role View -->
+      <div id="viewRole" style="display:none">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+          <!-- Admin Role Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3>🛡️ Admin Role</h3>
+              <span class="badge badge-info">5 users</span>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div class="zone-card"><div class="zone-icon">🚪</div><div class="zone-info"><div class="z-name">Main Entrance</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">🖥️</div><div class="zone-info"><div class="z-name">Server Room</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">🏢</div><div class="zone-info"><div class="z-name">All Floors</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">👔</div><div class="zone-info"><div class="z-name">Executive Floor</div></div><button class="perm-toggle on"></button></div>
+              </div>
+            </div>
+          </div>
+          <!-- Manager Role Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3>👔 Manager Role</h3>
+              <span class="badge badge-pink">18 users</span>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div class="zone-card"><div class="zone-icon">🚪</div><div class="zone-info"><div class="z-name">Main Entrance</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">🖥️</div><div class="zone-info"><div class="z-name">Server Room</div></div><button class="perm-toggle"></button></div>
+                <div class="zone-card"><div class="zone-icon">🏢</div><div class="zone-info"><div class="z-name">Office Floors</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">👔</div><div class="zone-info"><div class="z-name">Executive Floor</div></div><button class="perm-toggle"></button></div>
+              </div>
+            </div>
+          </div>
+          <!-- Staff Role Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3>👤 Staff Role</h3>
+              <span class="badge badge-info">180 users</span>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div class="zone-card"><div class="zone-icon">🚪</div><div class="zone-info"><div class="z-name">Main Entrance</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">🖥️</div><div class="zone-info"><div class="z-name">Server Room</div></div><button class="perm-toggle"></button></div>
+                <div class="zone-card"><div class="zone-icon">🏢</div><div class="zone-info"><div class="z-name">Office Floors</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">🚗</div><div class="zone-info"><div class="z-name">Parking</div></div><button class="perm-toggle on"></button></div>
+              </div>
+            </div>
+          </div>
+          <!-- Guard Role Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3>🛡️ Guard Role</h3>
+              <span class="badge badge-warning">14 users</span>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div class="zone-card"><div class="zone-icon">🚪</div><div class="zone-info"><div class="z-name">All Entrances</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">🖥️</div><div class="zone-info"><div class="z-name">Server Room</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">🏢</div><div class="zone-info"><div class="z-name">All Floors</div></div><button class="perm-toggle on"></button></div>
+                <div class="zone-card"><div class="zone-icon">👔</div><div class="zone-info"><div class="z-name">Executive Floor</div></div><button class="perm-toggle on"></button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zone View -->
+      <div id="viewZone" style="display:none">
+        <div class="content-grid">
+          <div class="card">
+            <div class="card-header"><h3>🚪 Main Entrance</h3><span class="badge badge-success">Open to most</span></div>
+            <div class="card-body">
+              <p style="font-size:.85rem;color:var(--gray-500);margin-bottom:16px">Who can access this zone:</p>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--pink-ghost)"><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">AV</div><span style="font-size:.875rem;font-weight:600">Ana Villanueva</span></div><button class="perm-toggle on"></button></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--pink-ghost)"><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">MR</div><span style="font-size:.875rem;font-weight:600">Marco Reyes</span></div><button class="perm-toggle on"></button></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--pink-ghost)"><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">JS</div><span style="font-size:.875rem;font-weight:600">Julia Santos</span></div><button class="perm-toggle on"></button></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0"><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem;background:linear-gradient(135deg,#ccc,#999)">BN</div><span style="font-size:.875rem;font-weight:600;color:#C62828">Ben Navarro (Suspended)</span></div><button class="perm-toggle"></button></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>🖥️ Server Room</h3><span class="badge badge-danger">Restricted</span></div>
+            <div class="card-body">
+              <p style="font-size:.85rem;color:var(--gray-500);margin-bottom:16px">High-security zone. Only authorized IT and Security staff:</p>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--pink-ghost)"><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">MR</div><span style="font-size:.875rem;font-weight:600">Marco Reyes</span></div><button class="perm-toggle on"></button></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--pink-ghost)"><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">PD</div><span style="font-size:.875rem;font-weight:600">Pedro Delos</span></div><button class="perm-toggle on"></button></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0"><div class="user-cell" style="gap:8px"><div class="mini-avatar" style="width:30px;height:30px;font-size:.75rem">AV</div><span style="font-size:.875rem;font-weight:600">Ana Villanueva</span></div><button class="perm-toggle"></button></div>
+              </div>
+              <div class="alert alert-warning mt-16"><span class="alert-icon">⚠️</span><span>This zone requires dual-authentication for access.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time-based Access Schedules -->
+      <div class="card mt-24">
+        <div class="card-header">
+          <h3>🕐 Time-Based Access Schedules</h3>
+          <button class="btn btn-ghost btn-sm" data-open-modal="schedModal">+ Add Schedule</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr><th>User / Group</th><th>Zone</th><th>Days</th><th>Time Window</th><th>Status</th><th>Actions</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><div class="user-cell"><div class="mini-avatar" style="width:28px;height:28px;font-size:.72rem">IT</div><div class="user-cell-info"><div class="name">IT Department</div></div></div></td><td>🖥️ Server Room</td><td>Mon – Fri</td><td>07:00 – 19:00</td><td><span class="badge badge-success badge-dot">Active</span></td><td><div class="action-btns"><button class="btn btn-ghost btn-sm">✏️</button><button class="btn btn-sm" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td></tr>
+                <tr><td><div class="user-cell"><div class="mini-avatar" style="width:28px;height:28px;font-size:.72rem">SC</div><div class="user-cell-info"><div class="name">Security Guards</div></div></div></td><td>🚪 All Entrances</td><td>Mon – Sun</td><td>24 hours</td><td><span class="badge badge-success badge-dot">Active</span></td><td><div class="action-btns"><button class="btn btn-ghost btn-sm">✏️</button><button class="btn btn-sm" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td></tr>
+                <tr><td><div class="user-cell"><div class="mini-avatar" style="width:28px;height:28px;font-size:.72rem">RL</div><div class="user-cell-info"><div class="name">Rosa Lim</div></div></div></td><td>🏢 Office Floor 3</td><td>Mon – Fri</td><td>08:00 – 17:00</td><td><span class="badge badge-success badge-dot">Active</span></td><td><div class="action-btns"><button class="btn btn-ghost btn-sm">✏️</button><button class="btn btn-sm" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td></tr>
+                <tr><td><div class="user-cell"><div class="mini-avatar" style="width:28px;height:28px;font-size:.72rem">DR</div><div class="user-cell-info"><div class="name">Dr. Rivera</div></div></div></td><td>🔬 Lab A &amp; B</td><td>Mon – Sat</td><td>06:00 – 22:00</td><td><span class="badge badge-success badge-dot">Active</span></td><td><div class="action-btns"><button class="btn btn-ghost btn-sm">✏️</button><button class="btn btn-sm" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Schedule Modal -->
+<div class="modal-overlay" id="schedModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🕐 Add Time Schedule</h3>
+      <button class="modal-close" data-close-modal="schedModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">User or Group</label><select class="form-control"><option>IT Department</option><option>Security Guards</option><option>Ana Villanueva</option><option>Marco Reyes</option><option>All Staff</option></select></div>
+      <div class="form-group"><label class="form-label">Access Zone</label><select class="form-control"><option>Main Entrance</option><option>Server Room</option><option>Lab A</option><option>Lab B</option><option>Office Floors</option><option>Executive Floor</option><option>Parking</option></select></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group" style="margin:0"><label class="form-label">Start Time</label><input type="time" class="form-control" value="08:00" /></div>
+        <div class="form-group" style="margin:0"><label class="form-label">End Time</label><input type="time" class="form-control" value="17:00" /></div>
+      </div>
+      <div class="form-group mt-16">
+        <label class="form-label">Active Days</label>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:4px;font-size:.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--pink)" /> Mon</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--pink)" /> Tue</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--pink)" /> Wed</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--pink)" /> Thu</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:.85rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--pink)" /> Fri</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:.85rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--pink)" /> Sat</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:.85rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--pink)" /> Sun</label>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding:0;border:none;margin-top:8px">
+        <button class="btn btn-outline" data-close-modal="schedModal">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('schedModal');showToast('Schedule saved','success')">✅ Save Schedule</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+  function switchView(view, btn) {
+    document.getElementById('viewMatrix').style.display = view === 'matrix' ? '' : 'none';
+    document.getElementById('viewRole').style.display   = view === 'role'   ? '' : 'none';
+    document.getElementById('viewZone').style.display   = view === 'zone'   ? '' : 'none';
+    document.querySelectorAll('.card-body .btn').forEach(b => {
+      b.classList.remove('btn-primary');
+      b.classList.add('btn-ghost');
+    });
+    btn.classList.remove('btn-ghost');
+    btn.classList.add('btn-primary');
+  }
+  function saveAllPerms() {
+    showToast('All permissions saved successfully', 'success');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Permissions — FaceLock</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>" />
+</head>
+<body>
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><div class="sidebar-logo"><div class="logo-box">🔐</div><span>FaceLock</span></div><button class="sidebar-toggle" id="sidebarToggle">◀</button></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">My Portal</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">🏠</span><span>My Dashboard</span></a>
+      <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span><span>My Profile</span></a>
+      <a class="nav-item" href="access-history.html"><span class="nav-icon">📋</span><span>Access History</span></a>
+      <div class="nav-section-label" style="margin-top:12px">Information</div>
+      <a class="nav-item active" href="my-permissions.html"><span class="nav-icon">🔑</span><span>My Permissions</span></a>
+      <a class="nav-item" href="#"><span class="nav-icon">🔔</span><span>Notifications</span></a>
+      <div class="nav-section-label" style="margin-top:12px">Account</div>
+      <a class="nav-item" href="profile.html"><span class="nav-icon">⚙️</span><span>Account Settings</span></a>
+      <a class="nav-item" href="../login.html"><span class="nav-icon">🚪</span><span>Logout</span></a>
+    </nav>
+    <div class="sidebar-footer"><div class="user-card"><div class="user-avatar">AV</div><div class="user-info"><div class="u-name">Ana Villanueva</div><div class="u-role">Manager – HR</div></div></div></div>
+  </aside>
+  <main class="app-main" id="appMain">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">☰</button>
+        <div class="topbar-left"><h2>My Permissions</h2><p>View your current access rights and zones</p></div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn" id="notifBtn">🔔<span class="notif-dot"></span></button>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="breadcrumb"><a href="dashboard.html">🏠 Home</a><span class="sep">›</span><span>My Permissions</span></div>
+
+      <div class="alert alert-info mb-24">
+        <span class="alert-icon">ℹ️</span>
+        <span>Your permissions are managed by the system administrator. To request a change, contact HR or your admin.</span>
+      </div>
+
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Zones Accessible</span><span class="stat-val">6</span><span class="stat-change up">▲ Active</span></div><div class="stat-icon-wrap si-green">🔑</div></div>
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Restricted Zones</span><span class="stat-val">2</span><span class="stat-change down">▼ No access</span></div><div class="stat-icon-wrap si-orange">🚫</div></div>
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Role</span><span class="stat-val" style="font-size:1.2rem">Manager</span><span class="stat-change up">▲ HR &amp; Admin</span></div><div class="stat-icon-wrap si-pink">👔</div></div>
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Last Updated</span><span class="stat-val" style="font-size:1.1rem">May 1</span><span class="stat-change up">▲ By Admin</span></div><div class="stat-icon-wrap si-blue">📅</div></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="card">
+          <div class="card-header"><h3>✅ Granted Access Zones</h3><span class="badge badge-success">6 zones</span></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="zone-card"><div class="zone-icon">🚪</div><div class="zone-info"><div class="z-name">Main Entrance</div><div class="z-sub">Available: Mon–Sun, All Hours</div></div><span class="badge badge-success badge-dot">Full Access</span></div>
+              <div class="zone-card"><div class="zone-icon">🔬</div><div class="zone-info"><div class="z-name">Lab A</div><div class="z-sub">Available: Mon–Sat, 06:00–22:00</div></div><span class="badge badge-success badge-dot">Active</span></div>
+              <div class="zone-card"><div class="zone-icon">🔬</div><div class="zone-info"><div class="z-name">Lab B</div><div class="z-sub">Available: Mon–Sat, 06:00–22:00</div></div><span class="badge badge-success badge-dot">Active</span></div>
+              <div class="zone-card"><div class="zone-icon">🏢</div><div class="zone-info"><div class="z-name">Office Floor 1–3</div><div class="z-sub">Available: Mon–Fri, 07:00–20:00</div></div><span class="badge badge-success badge-dot">Active</span></div>
+              <div class="zone-card"><div class="zone-icon">🚗</div><div class="zone-info"><div class="z-name">Parking – Level B1</div><div class="z-sub">Available: All days, All hours</div></div><span class="badge badge-success badge-dot">Active</span></div>
+              <div class="zone-card"><div class="zone-icon">🛗</div><div class="zone-info"><div class="z-name">Stairwell &amp; Elevator</div><div class="z-sub">Available: Always</div></div><span class="badge badge-success badge-dot">Active</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div class="card">
+            <div class="card-header"><h3>🚫 Restricted Zones</h3><span class="badge badge-danger">2 zones</span></div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div class="zone-card"><div class="zone-icon">🖥️</div><div class="zone-info"><div class="z-name">Server Room</div><div class="z-sub">IT Staff &amp; Security only</div></div><span class="badge badge-danger badge-dot">No Access</span></div>
+                <div class="zone-card"><div class="zone-icon">👔</div><div class="zone-info"><div class="z-name">Executive Floor 5</div><div class="z-sub">C-Suite &amp; Escort only</div></div><span class="badge badge-danger badge-dot">No Access</span></div>
+              </div>
+              <div class="alert alert-warning mt-16"><span class="alert-icon">⚠️</span><span>To request access to restricted zones, contact your system administrator.</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>📝 Request Access</h3></div>
+            <div class="card-body">
+              <p style="font-size:.875rem;color:var(--gray-700);margin-bottom:16px">Need access to a zone not listed? Submit a request to your admin.</p>
+              <div class="form-group"><label class="form-label">Zone Requested</label><select class="form-control"><option>Server Room</option><option>Executive Floor</option><option>Roof Access</option><option>Other…</option></select></div>
+              <div class="form-group"><label class="form-label">Reason</label><textarea class="form-control" rows="3" placeholder="Briefly explain why you need access…"></textarea></div>
+              <button class="btn btn-primary w-100" onclick="showToast('Access request submitted to admin','info')">📤 Submit Request</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Management — FaceLock Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👥</text></svg>" />
+</head>
+<body>
+
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-box">🔐</div>
+        <span>FaceLock</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle">◀</button>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+      <a class="nav-item active" href="users.html"><span class="nav-icon">👥</span><span>User Management</span><span class="nav-badge">12</span></a>
+      <a class="nav-item" href="permissions.html"><span class="nav-icon">🔑</span><span>Permissions</span></a>
+      <div class="nav-section-label" style="margin-top:12px">Monitoring</div>
+      <a class="nav-item" href="logs.html"><span class="nav-icon">📋</span><span>Access Logs</span></a>
+      <a class="nav-item" href="alerts.html"><span class="nav-icon">🔔</span><span>Alerts</span><span class="nav-badge">3</span></a>
+      <a class="nav-item" href="cameras.html"><span class="nav-icon">📷</span><span>Cameras</span></a>
+      <div class="nav-section-label" style="margin-top:12px">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+      <a class="nav-item" href="../login.html"><span class="nav-icon">🚪</span><span>Logout</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">AD</div>
+        <div class="user-info"><div class="u-name">Admin User</div><div class="u-role">Super Admin</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="app-main" id="appMain">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">☰</button>
+        <div class="topbar-left">
+          <h2>User Management</h2>
+          <p>Organize, add and manage system users</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn" id="notifBtn">🔔<span class="notif-dot"></span></button>
+        <button class="btn btn-primary btn-sm" data-open-modal="addUserModal">➕ Add User</button>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="breadcrumb">
+        <a href="dashboard.html">🏠 Home</a><span class="sep">›</span>
+        <span>User Management</span>
+      </div>
+
+      <!-- Summary Cards -->
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-info"><span class="stat-label">Total Users</span><span class="stat-val">248</span><span class="stat-change up">▲ 12 new this month</span></div>
+          <div class="stat-icon-wrap si-pink">👥</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info"><span class="stat-label">Active Users</span><span class="stat-val">231</span><span class="stat-change up">▲ 93% active rate</span></div>
+          <div class="stat-icon-wrap si-green">✅</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info"><span class="stat-label">Inactive Users</span><span class="stat-val">17</span><span class="stat-change down">▼ Needs review</span></div>
+          <div class="stat-icon-wrap si-orange">⏸️</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info"><span class="stat-label">Admins</span><span class="stat-val">5</span><span class="stat-change up">Super + Dept. Admins</span></div>
+          <div class="stat-icon-wrap si-blue">🛡️</div>
+        </div>
+      </div>
+
+      <!-- Users Table Card -->
+      <div class="card">
+        <div class="card-header">
+          <h3>👥 All Users</h3>
+          <span class="badge badge-pink">248 total</span>
+        </div>
+        <div class="card-body">
+          <!-- Toolbar -->
+          <div class="toolbar">
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="tableSearch" placeholder="Search by name, email, department…" />
+            </div>
+            <select class="form-control" id="statusFilter" style="width:auto;min-width:140px">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="suspended">Suspended</option>
+            </select>
+            <select class="form-control" style="width:auto;min-width:160px">
+              <option value="">All Departments</option>
+              <option>IT Department</option>
+              <option>HR &amp; Admin</option>
+              <option>Finance</option>
+              <option>Operations</option>
+              <option>Security</option>
+            </select>
+            <button class="btn btn-outline btn-sm">📥 Export</button>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="data-table" id="usersTable">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Role</th>
+                  <th>Department</th>
+                  <th>Status</th>
+                  <th>Registered</th>
+                  <th>Last Access</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">AV</div><div class="user-cell-info"><div class="name">Ana Villanueva</div><div class="email">ana@company.com</div></div></div></td>
+                  <td><span class="badge badge-pink">Manager</span></td>
+                  <td>HR &amp; Admin</td>
+                  <td><span class="badge badge-success badge-dot">Active</span></td>
+                  <td>Jan 15, 2025</td>
+                  <td>Today 09:42</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Ana Villanueva')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Ana Villanueva')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">MR</div><div class="user-cell-info"><div class="name">Marco Reyes</div><div class="email">marco@company.com</div></div></div></td>
+                  <td><span class="badge badge-info">Staff</span></td>
+                  <td>IT Department</td>
+                  <td><span class="badge badge-success badge-dot">Active</span></td>
+                  <td>Feb 3, 2025</td>
+                  <td>Today 09:38</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Marco Reyes')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Marco Reyes')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">JS</div><div class="user-cell-info"><div class="name">Julia Santos</div><div class="email">julia@company.com</div></div></div></td>
+                  <td><span class="badge badge-info">Researcher</span></td>
+                  <td>Operations</td>
+                  <td><span class="badge badge-success badge-dot">Active</span></td>
+                  <td>Mar 8, 2025</td>
+                  <td>Today 09:31</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Julia Santos')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Julia Santos')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">PD</div><div class="user-cell-info"><div class="name">Pedro Delos</div><div class="email">pedro@company.com</div></div></div></td>
+                  <td><span class="badge badge-warning">Guard</span></td>
+                  <td>Security</td>
+                  <td><span class="badge badge-success badge-dot">Active</span></td>
+                  <td>Dec 12, 2024</td>
+                  <td>Today 09:18</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Pedro Delos')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Pedro Delos')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">RL</div><div class="user-cell-info"><div class="name">Rosa Lim</div><div class="email">rosa@company.com</div></div></div></td>
+                  <td><span class="badge badge-info">Staff</span></td>
+                  <td>Finance</td>
+                  <td><span class="badge badge-success badge-dot">Active</span></td>
+                  <td>Nov 20, 2024</td>
+                  <td>Today 09:05</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Rosa Lim')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Rosa Lim')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">KT</div><div class="user-cell-info"><div class="name">Karen Tan</div><div class="email">karen@company.com</div></div></div></td>
+                  <td><span class="badge badge-pink">Manager</span></td>
+                  <td>Finance</td>
+                  <td><span class="badge badge-warning badge-dot">Inactive</span></td>
+                  <td>Oct 5, 2024</td>
+                  <td>Apr 30, 2025</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Karen Tan')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Karen Tan')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">DR</div><div class="user-cell-info"><div class="name">Dr. Rivera</div><div class="email">dr.rivera@company.com</div></div></div></td>
+                  <td><span class="badge badge-info">Researcher</span></td>
+                  <td>Operations</td>
+                  <td><span class="badge badge-success badge-dot">Active</span></td>
+                  <td>Sep 14, 2024</td>
+                  <td>Today 09:50</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Dr. Rivera')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Dr. Rivera')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="user-cell"><div class="mini-avatar">BN</div><div class="user-cell-info"><div class="name">Ben Navarro</div><div class="email">ben@company.com</div></div></div></td>
+                  <td><span class="badge badge-danger">Suspended</span></td>
+                  <td>IT Department</td>
+                  <td><span class="badge badge-danger badge-dot">Suspended</span></td>
+                  <td>Aug 1, 2024</td>
+                  <td>May 1, 2025</td>
+                  <td><div class="action-btns"><button class="btn btn-ghost btn-sm" onclick="openEditModal('Ben Navarro')">✏️ Edit</button><button class="btn btn-ghost btn-sm" onclick="openPermModal('Ben Navarro')">🔑 Perms</button><button class="btn btn-sm delete-row" style="background:#FFE0E0;color:#C62828">🗑️</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:10px">
+            <span style="font-size:.82rem;color:var(--gray-500)">Showing 8 of 248 users</span>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-ghost btn-sm">← Prev</button>
+              <button class="btn btn-primary btn-sm">1</button>
+              <button class="btn btn-ghost btn-sm">2</button>
+              <button class="btn btn-ghost btn-sm">3</button>
+              <button class="btn btn-ghost btn-sm">…</button>
+              <button class="btn btn-ghost btn-sm">25</button>
+              <button class="btn btn-ghost btn-sm">Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ── Add User Modal ──────────────────────────────────────── -->
+<div class="modal-overlay" id="addUserModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>➕ Add New User</h3>
+      <button class="modal-close" data-close-modal="addUserModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="addUserForm">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Full Name *</label>
+            <input type="text" id="newName" class="form-control" placeholder="e.g. Ana Dela Cruz" required />
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Email *</label>
+            <input type="email" id="newEmail" class="form-control" placeholder="email@company.com" required />
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Role *</label>
+            <select id="newRole" class="form-control">
+              <option>Staff</option>
+              <option>Manager</option>
+              <option>Guard</option>
+              <option>Researcher</option>
+              <option>Admin</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin:0">
+            <label class="form-label">Department</label>
+            <input type="text" id="newDept" class="form-control" placeholder="e.g. IT Department" />
+          </div>
+        </div>
+        <div class="form-group mt-16">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-control" placeholder="+63 9XX XXX XXXX" />
+        </div>
+
+        <!-- Face ID Registration -->
+        <div class="form-group">
+          <label class="form-label">Face ID Registration</label>
+          <div class="face-reg-box" id="faceRegBox">
+            <div class="face-reg-icon">📷</div>
+            <h4>Register Face ID</h4>
+            <p>Click to capture or upload a face photo for recognition</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Access Zones</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:.875rem;cursor:pointer"><input type="checkbox" checked style="accent-color:var(--pink)" />Main Entrance</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:.875rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--pink)" />Server Room</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:.875rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--pink)" />Lab A</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:.875rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--pink)" />Lab B</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:.875rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--pink)" />Office Floors</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:.875rem;cursor:pointer"><input type="checkbox" style="accent-color:var(--pink)" />Parking</label>
+          </div>
+        </div>
+
+        <div class="modal-footer" style="padding:0;border:none;margin-top:8px">
+          <button type="button" class="btn btn-outline" data-close-modal="addUserModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">✅ Save User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ── Edit User Modal ─────────────────────────────────────── -->
+<div class="modal-overlay" id="editUserModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>✏️ Edit User — <span id="editUserName"></span></h3>
+      <button class="modal-close" data-close-modal="editUserModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-info"><span class="alert-icon">ℹ️</span><span>Updating user information. Face ID can be re-registered below.</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group" style="margin:0"><label class="form-label">Full Name</label><input type="text" class="form-control" id="editName" /></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Email</label><input type="email" class="form-control" id="editEmail" /></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">
+        <div class="form-group" style="margin:0"><label class="form-label">Role</label><select class="form-control"><option>Staff</option><option>Manager</option><option>Guard</option><option>Admin</option></select></div>
+        <div class="form-group" style="margin:0"><label class="form-label">Status</label><select class="form-control"><option>Active</option><option>Inactive</option><option>Suspended</option></select></div>
+      </div>
+      <div class="modal-footer" style="padding:0;border:none;margin-top:20px">
+        <button class="btn btn-outline" data-close-modal="editUserModal">Cancel</button>
+        <button class="btn btn-primary" onclick="saveEdit()">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Quick Permissions Modal ─────────────────────────────── -->
+<div class="modal-overlay" id="permModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🔑 Quick Permissions — <span id="permUserName"></span></h3>
+      <button class="modal-close" data-close-modal="permModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="zone-card">
+          <div class="zone-icon">🚪</div>
+          <div class="zone-info"><div class="z-name">Main Entrance</div><div class="z-sub">Always accessible</div></div>
+          <button class="perm-toggle on" aria-checked="true"></button>
+        </div>
+        <div class="zone-card">
+          <div class="zone-icon">🖥️</div>
+          <div class="zone-info"><div class="z-name">Server Room</div><div class="z-sub">IT Only</div></div>
+          <button class="perm-toggle" aria-checked="false"></button>
+        </div>
+        <div class="zone-card">
+          <div class="zone-icon">🔬</div>
+          <div class="zone-info"><div class="z-name">Lab A &amp; B</div><div class="z-sub">Research Dept.</div></div>
+          <button class="perm-toggle on" aria-checked="true"></button>
+        </div>
+        <div class="zone-card">
+          <div class="zone-icon">🏢</div>
+          <div class="zone-info"><div class="z-name">Executive Floor</div><div class="z-sub">C-Suite only</div></div>
+          <button class="perm-toggle" aria-checked="false"></button>
+        </div>
+        <div class="zone-card">
+          <div class="zone-icon">🚗</div>
+          <div class="zone-info"><div class="z-name">Parking</div><div class="z-sub">All staff</div></div>
+          <button class="perm-toggle on" aria-checked="true"></button>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding:0;border:none;margin-top:16px">
+        <button class="btn btn-outline" data-close-modal="permModal">Cancel</button>
+        <a href="permissions.html" class="btn btn-ghost">Full Permissions →</a>
+        <button class="btn btn-primary" onclick="closeModal('permModal');showToast('Permissions saved','success')">💾 Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+<script>
+  function openEditModal(name) {
+    document.getElementById('editUserName').textContent = name;
+    document.getElementById('editName').value  = name;
+    document.getElementById('editEmail').value = name.toLowerCase().replace(/\s/g,'.') + '@company.com';
+    openModal('editUserModal');
+  }
+  function openPermModal(name) {
+    document.getElementById('permUserName').textContent = name;
+    openModal('permModal');
+  }
+  function saveEdit() {
+    closeModal('editUserModal');
+    showToast('User updated successfully', 'success');
+  }
+</script>
+</body>
+</html>

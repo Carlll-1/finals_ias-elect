@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access Logs — FaceLock Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>" />
+</head>
+<body>
+<div class="app-layout">
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header"><div class="sidebar-logo"><div class="logo-box">🔐</div><span>FaceLock</span></div><button class="sidebar-toggle" id="sidebarToggle">◀</button></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+      <a class="nav-item" href="users.html"><span class="nav-icon">👥</span><span>User Management</span></a>
+      <a class="nav-item" href="permissions.html"><span class="nav-icon">🔑</span><span>Permissions</span></a>
+      <div class="nav-section-label" style="margin-top:12px">Monitoring</div>
+      <a class="nav-item active" href="logs.html"><span class="nav-icon">📋</span><span>Access Logs</span></a>
+      <a class="nav-item" href="alerts.html"><span class="nav-icon">🔔</span><span>Alerts</span><span class="nav-badge">3</span></a>
+      <a class="nav-item" href="cameras.html"><span class="nav-icon">📷</span><span>Cameras</span></a>
+      <div class="nav-section-label" style="margin-top:12px">System</div>
+      <a class="nav-item" href="settings.html"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+      <a class="nav-item" href="../login.html"><span class="nav-icon">🚪</span><span>Logout</span></a>
+    </nav>
+    <div class="sidebar-footer"><div class="user-card"><div class="user-avatar">AD</div><div class="user-info"><div class="u-name">Admin User</div><div class="u-role">Super Admin</div></div></div></div>
+  </aside>
+  <main class="app-main" id="appMain">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-sidebar-toggle" id="mobileSidebarToggle">☰</button>
+        <div class="topbar-left"><h2>Access Logs</h2><p>Full audit trail of all door access events</p></div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn">🔔<span class="notif-dot"></span></button>
+        <button class="btn btn-outline btn-sm">📥 Export CSV</button>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="breadcrumb"><a href="dashboard.html">🏠 Home</a><span class="sep">›</span><span>Access Logs</span></div>
+      <div class="stat-cards">
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Today's Events</span><span class="stat-val">1,284</span><span class="stat-change up">▲ Live count</span></div><div class="stat-icon-wrap si-blue">🚪</div></div>
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Granted</span><span class="stat-val">1,277</span><span class="stat-change up">▲ 99.5% success</span></div><div class="stat-icon-wrap si-green">✅</div></div>
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Denied</span><span class="stat-val">7</span><span class="stat-change down">▼ Requires review</span></div><div class="stat-icon-wrap si-orange">🚫</div></div>
+        <div class="stat-card"><div class="stat-info"><span class="stat-label">Unknown Faces</span><span class="stat-val">3</span><span class="stat-change down">▼ Alerts raised</span></div><div class="stat-icon-wrap si-pink">⚠️</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>📋 Access Log — Today</h3><span style="font-size:.82rem;color:var(--gray-500)">Last updated: 09:52 AM</span></div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" id="tableSearch" placeholder="Search name, zone, status…" /></div>
+            <select class="form-control" id="statusFilter" style="width:auto;min-width:130px"><option value="">All Events</option><option value="granted">Granted</option><option value="denied">Denied</option><option value="alert">Alert</option></select>
+            <input type="date" class="form-control" style="width:auto" value="2026-05-12" />
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead><tr><th>#</th><th>User</th><th>Zone / Door</th><th>Method</th><th>Status</th><th>Date &amp; Time</th><th>Details</th></tr></thead>
+              <tbody id="logTableBody">
+                <tr><td style="color:var(--gray-500)">#1284</td><td><div class="user-cell"><div class="mini-avatar">DR</div><div class="user-cell-info"><div class="name">Dr. Rivera</div><div class="email">Operations</div></div></div></td><td>🔬 Lab B</td><td>👤 Face ID</td><td><span class="badge badge-success badge-dot">Granted</span></td><td>09:50:14 AM</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+                <tr><td style="color:var(--gray-500)">#1283</td><td><div class="user-cell"><div class="mini-avatar">AV</div><div class="user-cell-info"><div class="name">Ana Villanueva</div><div class="email">HR &amp; Admin</div></div></div></td><td>🚪 Main Entrance</td><td>👤 Face ID</td><td><span class="badge badge-success badge-dot">Granted</span></td><td>09:42:08 AM</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+                <tr><td style="color:var(--gray-500)">#1282</td><td><div class="user-cell"><div class="mini-avatar" style="background:linear-gradient(135deg,#EF9A9A,#C62828)">??</div><div class="user-cell-info"><div class="name">Unknown Person</div><div class="email">Not Registered</div></div></div></td><td>🖥️ Server Room</td><td>👤 Face ID</td><td><span class="badge badge-danger badge-dot">Denied</span></td><td>09:38:47 AM</td><td><button class="btn btn-sm" style="background:#FFE0E0;color:#C62828">⚠️ Alert</button></td></tr>
+                <tr><td style="color:var(--gray-500)">#1281</td><td><div class="user-cell"><div class="mini-avatar">JS</div><div class="user-cell-info"><div class="name">Julia Santos</div><div class="email">Operations</div></div></div></td><td>🔬 Lab A</td><td>👤 Face ID</td><td><span class="badge badge-success badge-dot">Granted</span></td><td>09:31:22 AM</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+                <tr><td style="color:var(--gray-500)">#1280</td><td><div class="user-cell"><div class="mini-avatar">PD</div><div class="user-cell-info"><div class="name">Pedro Delos</div><div class="email">Security</div></div></div></td><td>🚪 Side Gate</td><td>👤 Face ID</td><td><span class="badge badge-success badge-dot">Granted</span></td><td>09:18:05 AM</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+                <tr><td style="color:var(--gray-500)">#1279</td><td><div class="user-cell"><div class="mini-avatar">RL</div><div class="user-cell-info"><div class="name">Rosa Lim</div><div class="email">Finance</div></div></div></td><td>🏢 Office Floor 3</td><td>👤 Face ID</td><td><span class="badge badge-success badge-dot">Granted</span></td><td>09:05:33 AM</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+                <tr><td style="color:var(--gray-500)">#1278</td><td><div class="user-cell"><div class="mini-avatar" style="background:linear-gradient(135deg,#EF9A9A,#C62828)">??</div><div class="user-cell-info"><div class="name">Unknown Person</div><div class="email">Not Registered</div></div></div></td><td>🚪 Rear Entrance</td><td>👤 Face ID</td><td><span class="badge badge-warning badge-dot">Alert</span></td><td>08:57:19 AM</td><td><button class="btn btn-sm" style="background:#FFF8E1;color:#E65100">⚠️ Alert</button></td></tr>
+                <tr><td style="color:var(--gray-500)">#1277</td><td><div class="user-cell"><div class="mini-avatar">MR</div><div class="user-cell-info"><div class="name">Marco Reyes</div><div class="email">IT Dept.</div></div></div></td><td>🚪 Main Entrance</td><td>👤 Face ID</td><td><span class="badge badge-success badge-dot">Granted</span></td><td>08:50:42 AM</td><td><button class="btn btn-ghost btn-sm">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:10px">
+            <span style="font-size:.82rem;color:var(--gray-500)">Showing 8 of 1,284 events today</span>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-ghost btn-sm">← Prev</button>
+              <button class="btn btn-primary btn-sm">1</button>
+              <button class="btn btn-ghost btn-sm">2</button>
+              <button class="btn btn-ghost btn-sm">…</button>
+              <button class="btn btn-ghost btn-sm">Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="../js/main.js"></script>
+</body>
+</html>
