@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Check if already logged in to redirect to dashboard 
+if (isset($_SESSION['user_id'])) {
+    header("Location: " . ($_SESSION['role'] == 'admin' ? "admin/dashboard.php" : "user/dashboard.php"));
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,21 +18,20 @@
 </head>
 <body>
 
-<!-- ── Navbar ──────────────────────────────────────────────── -->
 <nav class="navbar" id="navbar">
-  <a href="index.html" class="nav-brand">
+  <a href="index.php" class="nav-brand">
     <div class="brand-icon">🔐</div>
     FaceLock
   </a>
   <ul class="nav-links">
-    <li><a href="#features"    class="active">Features</a></li>
+    <li><a href="#features" class="active">Features</a></li>
     <li><a href="#how-it-works">How It Works</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <div class="nav-actions">
-    <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
-    <a href="login.html" class="btn btn-primary btn-sm">Get Started</a>
+    <a href="login.php" class="btn btn-outline btn-sm">Log In</a>
+    <a href="signup.php" class="btn btn-primary btn-sm">Get Started</a>
   </div>
   <div class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -35,14 +43,12 @@
   <a href="#how-it-works">How It Works</a>
   <a href="#about">About</a>
   <a href="#contact">Contact</a>
-  <a href="login.html" class="btn btn-primary" style="margin-top:8px;text-align:center">Get Started</a>
+  <a href="login.php" class="btn btn-primary" style="margin-top:8px;text-align:center">Get Started</a>
 </div>
 
-<!-- ── Hero ────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="container">
     <div class="hero-content">
-      <!-- Left -->
       <div class="hero-text">
         <div class="hero-tag">🔐 Next-Gen Door Security</div>
         <h1>
@@ -55,8 +61,8 @@
           set granular permissions, and monitor activity — all from one elegant dashboard.
         </p>
         <div class="hero-btns">
-          <a href="admin/dashboard.html" class="btn btn-primary">🛡️ Admin Dashboard</a>
-          <a href="user/dashboard.html"  class="btn btn-outline">👤 User Portal</a>
+          <a href="login.php" class="btn btn-primary">🛡️ Admin Dashboard</a>
+          <a href="login.php" class="btn btn-outline">👤 User Portal</a>
         </div>
         <div class="hero-stats">
           <div class="hero-stat">
@@ -74,7 +80,6 @@
         </div>
       </div>
 
-      <!-- Right: Face scanner visual -->
       <div class="hero-visual">
         <div class="face-scanner">
           <div class="face-scanner-inner">
@@ -86,7 +91,6 @@
             <div class="face-icon">👤</div>
           </div>
         </div>
-        <!-- Floating badges -->
         <div class="floating-badge fb-1">
           <div class="badge-icon">✅</div>
           <div>
@@ -113,7 +117,6 @@
   </div>
 </section>
 
-<!-- ── Features ─────────────────────────────────────────────── -->
 <section class="section" id="features">
   <div class="container">
     <div class="section-header">
@@ -125,38 +128,37 @@
       <div class="feature-card">
         <div class="feature-icon">🧠</div>
         <h3>AI Face Recognition</h3>
-        <p>Advanced deep-learning model recognizes faces in under 0.3 seconds with 99.7% accuracy, even in varied lighting conditions.</p>
+        [cite_start]<p>Advanced deep-learning model recognizes faces in under 0.3 seconds with 99.7% accuracy. [cite: 19]</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">👥</div>
         <h3>User Management</h3>
-        <p>Organize users into departments, assign roles, and manage their profiles from a centralized admin panel.</p>
+        [cite_start]<p>Organize users into departments, assign roles, and manage their profiles centrally. [cite: 9, 46]</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🔑</div>
         <h3>Permission Control</h3>
-        <p>Set fine-grained permissions per user or group — control which doors, floors, and time windows each person can access.</p>
+        [cite_start]<p>Set fine-grained permissions per user or group — control zones and time windows. [cite: 47]</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📊</div>
         <h3>Real-time Monitoring</h3>
-        <p>Live dashboard shows who entered, when, and from which door. Get instant alerts for unauthorized access attempts.</p>
+        [cite_start]<p>Live dashboard shows who entered, when, and from which door. [cite: 8, 20]</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📱</div>
         <h3>Mobile Responsive</h3>
-        <p>Manage everything from any device — desktop, tablet, or phone. Fully responsive design that works everywhere.</p>
+        <p>Manage everything from any device — desktop, tablet, or phone.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🛡️</div>
         <h3>Secure & Encrypted</h3>
-        <p>All face data is encrypted at rest and in transit. Role-based access ensures only admins can view sensitive information.</p>
+        [cite_start]<p>All face data is encrypted at rest and in transit (RA 10173). [cite: 16, 56]</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── How It Works ──────────────────────────────────────────── -->
 <section class="section how-it-works" id="how-it-works">
   <div class="container">
     <div class="section-header">
@@ -168,28 +170,27 @@
       <div class="step">
         <div class="step-num">1</div>
         <h4>Register Face</h4>
-        <p>Admin registers the user's face via the portal. The AI captures and encrypts facial biometrics securely.</p>
+        <p>Admin registers facial biometrics securely into the system.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <h4>Set Permissions</h4>
-        <p>Assign access zones, time schedules, and role-based permissions to each registered user.</p>
+        [cite_start]<p>Assign access zones, time schedules, and roles to users. [cite: 46, 47]</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <h4>Face Scan</h4>
-        <p>User approaches the door camera. The system matches the face against the registered database in real time.</p>
+        <p>User approaches the door camera. The system matches the face in real time.</p>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <h4>Access Granted</h4>
-        <p>If authorized, the door unlocks instantly. Every event is logged with timestamp for audit trails.</p>
+        <p>If authorized, the door unlocks instantly. [cite_start]Every event is logged (RA 10175). [cite: 20]</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Stats Banner ──────────────────────────────────────────── -->
 <section class="stats-banner observe" id="about">
   <div class="container">
     <div class="stats-grid">
@@ -213,72 +214,36 @@
   </div>
 </section>
 
-<!-- ── CTA ───────────────────────────────────────────────────── -->
-<section class="cta-section" id="contact">
-  <div class="container">
-    <div class="hero-tag" style="margin: 0 auto 20px">🚀 Ready to Secure Your Facility?</div>
-    <h2>Start Managing Access<br>with <span class="gradient-text">FaceLock Today</span></h2>
-    <p>Join hundreds of facilities that trust FaceLock for intelligent, contactless door security.</p>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-      <a href="admin/dashboard.html" class="btn btn-primary">🛡️ Open Admin Panel</a>
-      <a href="login.html"           class="btn btn-outline">👤 User Login</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── Footer ────────────────────────────────────────────────── -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="nav-brand" style="color:#fff;margin-bottom:14px">
-          <div class="brand-icon">🔐</div>
-          FaceLock
+          <div class="brand-icon">🔐</div> FaceLock
         </div>
-        <p>Intelligent face recognition access control system for modern facilities. Secure, fast, and easy to manage.</p>
-        <div class="social-links" style="margin-top:20px">
-          <a href="#" class="social-link">📘</a>
-          <a href="#" class="social-link">🐦</a>
-          <a href="#" class="social-link">💼</a>
-          <a href="#" class="social-link">📷</a>
-        </div>
+        [cite_start]<p>Intelligent access control compliant with RA 10173 and RA 10175. [cite: 5]</p>
       </div>
       <div>
         <h4>Product</h4>
         <ul>
           <li><a href="#features">Features</a></li>
           <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Changelog</a></li>
         </ul>
       </div>
       <div>
         <h4>Access</h4>
         <ul>
-          <li><a href="admin/dashboard.html">Admin Panel</a></li>
-          <li><a href="user/dashboard.html">User Portal</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="#">API Docs</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="login.php">Login</a></li>
+          <li><a href="signup.php">Sign Up</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 FaceLock. All rights reserved.</span>
-      <span>Built with ❤️ for secure access</span>
+      <span>© 2026 FaceLock. Built with ❤️ for secure access.</span>
     </div>
   </div>
 </footer>
 
-<script src="js/main.js"></script>
 <script>
   /* Trigger counter animation on page load for hero stats */
   window.addEventListener('load', () => {

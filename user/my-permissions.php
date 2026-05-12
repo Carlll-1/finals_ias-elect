@@ -1,3 +1,22 @@
+<?php
+session_start();
+require_once('../config.php');
+
+// Check kung naka-login
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+// Kunin ang data ng logged-in user para sa Sidebar at Permissions info
+$user_id = $_SESSION['user_id'];
+$user_query = "SELECT * FROM users WHERE id = '$user_id'";
+$user_result = mysqli_query($conn, $user_query);
+$user = mysqli_fetch_assoc($user_result);
+
+$initials = strtoupper(substr($user['firstname'], 0, 1) . substr($user['lastname'], 0, 1));
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,18 +33,27 @@
     <div class="sidebar-header"><div class="sidebar-logo"><div class="logo-box">🔐</div><span>FaceLock</span></div><button class="sidebar-toggle" id="sidebarToggle">◀</button></div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">My Portal</div>
-      <a class="nav-item" href="dashboard.html"><span class="nav-icon">🏠</span><span>My Dashboard</span></a>
-      <a class="nav-item" href="profile.html"><span class="nav-icon">👤</span><span>My Profile</span></a>
-      <a class="nav-item" href="access-history.html"><span class="nav-icon">📋</span><span>Access History</span></a>
+      <a class="nav-item" href="dashboard.php"><span class="nav-icon">🏠</span><span>My Dashboard</span></a>
+      <a class="nav-item" href="profile.php"><span class="nav-icon">👤</span><span>My Profile</span></a>
+      <a class="nav-item" href="access-history.php"><span class="nav-icon">📋</span><span>Access History</span></a>
       <div class="nav-section-label" style="margin-top:12px">Information</div>
-      <a class="nav-item active" href="my-permissions.html"><span class="nav-icon">🔑</span><span>My Permissions</span></a>
+      <a class="nav-item active" href="my-permissions.php"><span class="nav-icon">🔑</span><span>My Permissions</span></a>
       <a class="nav-item" href="#"><span class="nav-icon">🔔</span><span>Notifications</span></a>
       <div class="nav-section-label" style="margin-top:12px">Account</div>
-      <a class="nav-item" href="profile.html"><span class="nav-icon">⚙️</span><span>Account Settings</span></a>
-      <a class="nav-item" href="../login.html"><span class="nav-icon">🚪</span><span>Logout</span></a>
+      <a class="nav-item" href="profile.php"><span class="nav-icon">⚙️</span><span>Account Settings</span></a>
+      <a class="nav-item" href="../logout.php"><span class="nav-icon">🚪</span><span>Logout</span></a>
     </nav>
-    <div class="sidebar-footer"><div class="user-card"><div class="user-avatar">AV</div><div class="user-info"><div class="u-name">Ana Villanueva</div><div class="u-role">Manager – HR</div></div></div></div>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar"><?php echo $initials; ?></div>
+        <div class="user-info">
+          <div class="u-name"><?php echo htmlspecialchars($user['firstname'] . ' ' . $user['lastname']); ?></div>
+          <div class="u-role"><?php echo htmlspecialchars($user['role']); ?></div>
+        </div>
+      </div>
+    </div>
   </aside>
+
   <main class="app-main" id="appMain">
     <div class="topbar">
       <div style="display:flex;align-items:center;gap:12px">
@@ -36,8 +64,9 @@
         <button class="topbar-btn" id="notifBtn">🔔<span class="notif-dot"></span></button>
       </div>
     </div>
+
     <div class="page-content">
-      <div class="breadcrumb"><a href="dashboard.html">🏠 Home</a><span class="sep">›</span><span>My Permissions</span></div>
+      <div class="breadcrumb"><a href="dashboard.php">🏠 Home</a><span class="sep">›</span><span>My Permissions</span></div>
 
       <div class="alert alert-info mb-24">
         <span class="alert-icon">ℹ️</span>
@@ -47,7 +76,14 @@
       <div class="stat-cards">
         <div class="stat-card"><div class="stat-info"><span class="stat-label">Zones Accessible</span><span class="stat-val">6</span><span class="stat-change up">▲ Active</span></div><div class="stat-icon-wrap si-green">🔑</div></div>
         <div class="stat-card"><div class="stat-info"><span class="stat-label">Restricted Zones</span><span class="stat-val">2</span><span class="stat-change down">▼ No access</span></div><div class="stat-icon-wrap si-orange">🚫</div></div>
-        <div class="stat-card"><div class="stat-info"><span class="stat-label">Role</span><span class="stat-val" style="font-size:1.2rem">Manager</span><span class="stat-change up">▲ HR &amp; Admin</span></div><div class="stat-icon-wrap si-pink">👔</div></div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <span class="stat-label">Role</span>
+            <span class="stat-val" style="font-size:1.2rem"><?php echo htmlspecialchars($user['role']); ?></span>
+            <span class="stat-change up">▲ Assigned</span>
+          </div>
+          <div class="stat-icon-wrap si-pink">👔</div>
+        </div>
         <div class="stat-card"><div class="stat-info"><span class="stat-label">Last Updated</span><span class="stat-val" style="font-size:1.1rem">May 1</span><span class="stat-change up">▲ By Admin</span></div><div class="stat-icon-wrap si-blue">📅</div></div>
       </div>
 
@@ -65,6 +101,7 @@
             </div>
           </div>
         </div>
+
         <div style="display:flex;flex-direction:column;gap:20px">
           <div class="card">
             <div class="card-header"><h3>🚫 Restricted Zones</h3><span class="badge badge-danger">2 zones</span></div>
@@ -76,6 +113,7 @@
               <div class="alert alert-warning mt-16"><span class="alert-icon">⚠️</span><span>To request access to restricted zones, contact your system administrator.</span></div>
             </div>
           </div>
+
           <div class="card">
             <div class="card-header"><h3>📝 Request Access</h3></div>
             <div class="card-body">
